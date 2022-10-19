@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Torcedor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+    <h1> Adicionar Torcedor</h1>
+    <div>
+        <form action="/adicionar" class="container" method="post">
+            <div class="row">
+                <div>
+                    <input type="text" name="nome" id="Nome" placeholder="Nome Completo">
+                </div>
+                <div>
+                    <input type="date" name="data_de_nascimento" id="data_de_nascimento" placeholder="Data de Nascimento">
+                </div>
+                <div>
+                    
+                    <input list="browsers" name="time" id="time" placeholder="Time que torce">
+                    <datalist id="browsers">
+                        <option value="vasco">
+                        <option value="flamengo">
+                        <option value="fluminense">
+                        <option value="botafogo">
+                        <option value="palmeiras">
+                    </datalist>
+                </div>
+                <div>
+                    <input type="email" name="email" id="email" placeholder="Email">
+                </div>
+                <div>
+                    <input type="text" name="cpf" id="cpf" placeholder="CPF" onkeyup="cpfCheck(this)" maxlength="14" onkeydown="javascript: fMasc( this, mCPF );"> <span id="cpfResponse"></span>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn-block btn-success">Enviar</button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+        function is_cpf (c) {
+
+if((c = c.replace(/[^\d]/g,"")).length != 11)
+  return false
+
+if (c == "00000000000")
+  return false;
+
+var r;
+var s = 0;
+
+for (i=1; i<=9; i++)
+  s = s + parseInt(c[i-1]) * (11 - i);
+
+r = (s * 10) % 11;
+
+if ((r == 10) || (r == 11))
+  r = 0;
+
+if (r != parseInt(c[9]))
+  return false;
+
+s = 0;
+
+for (i = 1; i <= 10; i++)
+  s = s + parseInt(c[i-1]) * (12 - i);
+
+r = (s * 10) % 11;
+
+if ((r == 10) || (r == 11))
+  r = 0;
+
+if (r != parseInt(c[10]))
+  return false;
+
+return true;
+}
+
+
+function fMasc(objeto,mascara) {
+obj=objeto
+masc=mascara
+setTimeout("fMascEx()",1)
+}
+
+function fMascEx() {
+obj.value=masc(obj.value)
+}
+
+function mCPF(cpf){
+cpf=cpf.replace(/\D/g,"")
+cpf=cpf.replace(/(\d{3})(\d)/,"$1.$2")
+cpf=cpf.replace(/(\d{3})(\d)/,"$1.$2")
+cpf=cpf.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
+return cpf
+}
+
+cpfCheck = function (el) {
+  document.getElementById('cpfResponse').innerHTML = is_cpf(el.value)? '<span style="color:green">válido</span>' : '<span style="color:red">inválido</span>';
+  if(el.value=='') document.getElementById('cpfResponse').innerHTML = '';
+}
+
+    </script>
+</body>
+</html>
