@@ -4,3 +4,4 @@ import views
 
 app.db.create_all()
 app.app.run(debug=True)
+
