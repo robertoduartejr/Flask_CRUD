@@ -1,8 +1,10 @@
 
-from flask import render_template, request, url_for, redirect, current_app
+from flask import render_template, request, url_for, redirect
 from app import app, db
 from models import Torcedor
 
+
+#todas as funções para realização de CRUD abaixo junto com as rotas.
 @app.route('/')
 def index():
     torcedores = Torcedor.query.all()
@@ -11,8 +13,8 @@ def index():
 @app.route('/adicionar',methods=['GET','POST'])
 def adicionar():
     if request.method == 'POST':
-        if cpf_validate(request.form['cpf']):
-            try:
+        if cpf_validate(request.form['cpf']): #tratando erro na validação do CPF
+            try: #tratando erro na vvalidação dos dados no db. A variável erro varia entre 1 e 2 pra determinar a msg exibida no navegador
                 torcedor = Torcedor(request.form['nome'], request.form['data_de_nascimento'],request.form['time'].lower(), request.form['email'], request.form['cpf'])
                 db.session.add(torcedor)
                 db.session.commit()
@@ -27,6 +29,7 @@ def adicionar():
     if request.method == 'GET':
         return render_template('adicionar.html')
 
+#rota para deletar usuario
 @app.route('/deletar/<int:id>')
 def deletar(id):
     torcedor = Torcedor.query.get(id)
@@ -34,12 +37,13 @@ def deletar(id):
     db.session.commit()
     return redirect(url_for('index'))
 
+#rota para editar informações
 @app.route('/editar/<int:id>', methods=['GET','POST'])
 def editar(id):
     torcedor = Torcedor.query.get(id)
     if request.method == 'POST':
-        if cpf_validate(request.form['cpf']):
-            try:
+        if cpf_validate(request.form['cpf']): #tratando erro na validação do CPF
+            try: #tratando erro na vvalidação dos dados no db. A variável erro varia entre 1 e 2 pra determinar a msg exibida no navegador
                 torcedor.nome = request.form['nome']
                 torcedor.data_nascimento = request.form['data_de_nascimento']
                 torcedor.time = request.form['time'].lower()
@@ -57,7 +61,7 @@ def editar(id):
     if request.method == 'GET':
         return render_template('editar.html',torcedor=torcedor)
 
-
+#função para validação do CPF. Porém já utilizei uma no javascript que faz a maior parte do trabalho
 def cpf_validate(numbers):
     #  Obtém os números do CPF e ignora outros caracteres
     cpf = [int(char) for char in numbers if char.isdigit()]

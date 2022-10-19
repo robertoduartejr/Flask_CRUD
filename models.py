@@ -5,8 +5,7 @@ from app import db
 
 class Torcedor(db.Model):
 
-    #__tablename__ = 'torcedores'
-
+    #defini o controle de usuários repetidos a partir do CPF.
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String(150))
     data_nascimento = db.Column(db.DateTime)
