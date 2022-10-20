@@ -5,7 +5,10 @@ from models import Torcedor
 import views
 
 #criar tudo no banco, caso não tenha sido criado
-app.db.create_all()
-#rodar aplicação
-app.app.run(debug=True)
 
+#rodar aplicação
+if __name__ == '__main__':
+    app.db.create_all()
+    app.app.run(debug=True)
+
+#...
